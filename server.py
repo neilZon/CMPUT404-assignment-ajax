@@ -22,9 +22,11 @@
 
 
 import flask
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import json
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 
 # An example world
@@ -79,21 +81,24 @@ def hello():
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    return None
+    data = request.json
+    myWorld.set(entity, data)
+    return {}
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return None
+    return jsonify(myWorld.world())
 
 @app.route("/entity/<entity>")    
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return None
+    return jsonify(myWorld.get(entity))
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
+    myWorld.clear()
     return None
 
 if __name__ == "__main__":
