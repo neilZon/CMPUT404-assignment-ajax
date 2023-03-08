@@ -17,8 +17,13 @@
     KIND, either express or implied. See the License for the specific language
     governing permissions and limitations under the License. "/>
     <script src="json2.js"></script>
+    <style>
+      canvas {
+        background: red !important;
+      }
+    </style>
   </head>
-  <body bgcolor="black" height="100%" width="100%">
+  <body bgcolor="#272D2D" height="100%" width="100%">
     <canvas
       id="c"
       width="100%"
@@ -95,7 +100,7 @@
       // This actually draws the frame
       function renderFrame() {
         clearFrame();
-        console.log('frame wtf', world);
+        // console.log('frame wtf', world);
         for (var key in world) {
           var entity = world[key];
           drawCircle(context, prepEntity(entity));
@@ -160,7 +165,7 @@
             },
           },
           (res) => {
-            console.log(res);
+            // console.log(res);
           }
         );
       }
@@ -168,7 +173,7 @@
       var counter = 0;
       function addEntityWithoutName(data) {
         //var name = "X"+Math.floor((Math.random()*100)+1);
-        var name = 'X' + (counter++ % 3);
+        var name = 'X' + (counter++ % 100);
         addEntity(name, data);
       }
 
@@ -210,7 +215,7 @@
               var y = pos[1];
               self.clicked = 1;
               self.callListeners(self.mousedowners, x, y, self.clicked, e);
-              addEntityWithoutName({ x: x, y: y, colour: 'red' });
+              addEntityWithoutName({ x: x, y: y, colour: '#440381' });
             }
           },
           mouseup: function (e) {
@@ -224,7 +229,7 @@
               self.clicked = 0;
               self.selected = -1;
               self.callListeners(self.mouseuppers, x, y, self.clicked, e);
-              addEntityWithoutName({ x: x, y: y, colour: 'blue' });
+              addEntityWithoutName({ x: x, y: y, colour: '#EC368D' });
             }
           },
           touchstart: function (e) {
@@ -279,7 +284,7 @@
       });
 
       mouse.mousedraggers.push(function (x, y, clicked, e) {
-        addEntityWithoutName({ x: x, y: y, colour: 'green', radius: 10 });
+        addEntityWithoutName({ x: x, y: y, colour: '#0AFFE7', radius: 10 });
       });
 
       function update() {
@@ -295,7 +300,7 @@
             },
           },
           (data) => {
-            console.log('server sdfj s', data);
+            // console.log('server sdfj s', data);
             world = { ...data };
             drawNext = true;
           }

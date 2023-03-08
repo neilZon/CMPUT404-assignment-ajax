@@ -22,11 +22,11 @@
 
 
 import flask
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for, redirect
 import json
 from flask_cors import CORS
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 app.debug = True
 
 # An example world
@@ -76,14 +76,14 @@ def flask_post_json():
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return None
+    return redirect(url_for('static', filename='./index.html'))
 
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
     data = request.json
     myWorld.set(entity, data)
-    return {}
+    return jsonify(myWorld.get(entity))
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
@@ -99,7 +99,7 @@ def get_entity(entity):
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
-    return None
+    return jsonify(myWorld.world())
 
 if __name__ == "__main__":
     app.run()
